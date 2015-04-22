@@ -31,7 +31,7 @@
                 <f:facet name="header">
                     <h:outputText value="Identyfikator" />
                 </f:facet>
-                <h:outputText value="#{pracownik.id}" />
+                <h:outputText value="#{pracownik.id}" style='align:center' />
             </h:column>
             <h:column>
                 <h:commandButton value="Zwolnij" action="#{Kadry.zwolnijPracownika}" />

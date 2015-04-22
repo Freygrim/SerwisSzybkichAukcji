@@ -19,6 +19,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/Kadry.jsp</welcome-file>
+        <welcome-file>faces/Kategorie.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
