@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
@@ -20,19 +21,20 @@ import javax.transaction.UserTransaction;
  *
  * @author Tomasz
  */
-@ManagedBean(name="ZarzadzajKategoriami")
+@ManagedBean(name="Zarzadzaj")
 @RequestScoped
-public class ZarzadzajKategoriami
+public class Zarzadzaj
 {
-@PersistenceContext(name = "SerwisSzybkichAukcjiPU")
+    @PersistenceContext(name = "SerwisSzybkichAukcjiPU")
     EntityManager em;
 
     @Resource
     UserTransaction tx;
 
     private DataModel kategorieDM = new ListDataModel();
+    private DataModel uzytkownicyDM = new ListDataModel();
 
-    public ZarzadzajKategoriami() {
+    public Zarzadzaj() {
         // UWAGA: Kolejność wykonywania DI - serwer aplikacyjny i JSF
         // Korzystając z DI dla EM i korzystając z niego w konstruktorze nie można skorzystać z DI poprzez
         // faces-config.xml
@@ -48,15 +50,36 @@ public class ZarzadzajKategoriami
     {
         this.kategorieDM = kategorieDM;
     }
+    
+    public DataModel getUzytkownicy()
+    {
+        uzytkownicyDM.setWrappedData(pobierzUzytkownikow());
+        return uzytkownicyDM;
+    }
+    
+    public void setUzytkownicy(DataModel uzytkownicyDM)
+    {
+        this.uzytkownicyDM = uzytkownicyDM;
+    }
 
     protected List<Kategoria> pobierzKategorie()
     {
         return em.createNamedQuery("pobierzKategorie").getResultList();
     }
+    
+    protected List<Uzytkownik> pobierzUzytkownikow()
+    {
+        return em.createNamedQuery("pobierzUzytkownikow").getResultList();
+    }
 
-    public int getSize()
+    public int getKategorieSize()
     {
         return kategorieDM.getRowCount();
+    }
+    
+    public int getUzytkownicySize()
+    {
+        return uzytkownicyDM.getRowCount();
     }
 
     public String usunKategorie()
@@ -73,7 +96,7 @@ public class ZarzadzajKategoriami
         {
             // zignoruj tymczasowo jedynie dla uproszczenia przykładu
         }
-        return "success";
+        return "Kategorie";
     }
 
     public String dodajKategorie()
@@ -89,16 +112,58 @@ public class ZarzadzajKategoriami
         }
         catch (Exception e)
         {
-            // zignoruj tymczasowo jedynie dla uproszczenia przykładu
-            getKategoria().setNazwa(e.getMessage());
+            // tutaj pojawia sie wyjatek jezeli nastepuje proba dodania tej samej kategori
+            if(javax.transaction.RollbackException.class == e.getClass())
+            {
+                return "KatDuplikatError?faces-redirect=true";
+            }
         }
-        setKategoria(new Kategoria());
-        return "success";
+        getKategoria().setNazwa("");
+        return "Kategorie?faces-redirect=true";
     }
 
+    public String usunUzytkownika()
+    {
+        try
+        {
+            tx.begin();
+            // UWAGA: JPA wykonując merge zwróci trwałą encję i tylko ta będzie trwała, a nie przekazywany parametr
+            Uzytkownik uzytkownik = (Uzytkownik) em.merge(uzytkownicyDM.getRowData());
+            em.remove(uzytkownik);
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            // zignoruj tymczasowo jedynie dla uproszczenia przykładu
+        }
+        return "Uzytkownicy";
+    }
+    
+    public String dodajUzytkownika()
+    {
+        try
+        {
+            tx.begin();
+            em.merge(getAktualnyUzytkownik());
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            // tutaj pojawia sie wyjatek jezeli nastepuje proba dodania tego samego uzytkownika
+            if(javax.transaction.RollbackException.class == e.getClass())
+            {
+                return "UzytDuplikatError?faces-redirect=true";
+            }
+        }
+        getAktualnyUzytkownik().reset();
+        return "Uzytkownicy?faces-redirect=true";
+    }
+    
     // Korzystamy z DI dla JSF - patrz plik faces-config.xml
     @ManagedProperty(value="#{Kategoria}")
     Kategoria kategoria;
+    @ManagedProperty(value="#{Uzytkownik}")
+    Uzytkownik aktualnyUzytkownik;
 
     public void setKategoria(Kategoria kategoria) {
         this.kategoria = kategoria;
@@ -106,5 +171,15 @@ public class ZarzadzajKategoriami
 
     public Kategoria getKategoria() {
         return this.kategoria;
+    }
+    
+    public void setAktualnyUzytkownik(Uzytkownik uzytkownik)
+    {
+        this.aktualnyUzytkownik = uzytkownik;
+    }
+    
+    public Uzytkownik getAktualnyUzytkownik()
+    {
+        return this.aktualnyUzytkownik;
     }
 }

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Zarządzanie użytkownikami</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h:commandButton value="Powrót do panelu admina" action="adminPanel?faces-redirect=true"/>
+                <h:dataTable var="uzytkownik" value="#{Zarzadzaj.uzytkownicy}" border="0">
+                    <f:facet name="header">
+                        <h:outputText value="Dodani użytkownicy" />
+                    </f:facet>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id" />
+                        </f:facet>
+                        <h:outputText value="#{uzytkownik.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Imię" />
+                        </f:facet>
+                        <h:outputText value="#{uzytkownik.imie}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nazwisko" />
+                        </f:facet>
+                        <h:outputText value="#{uzytkownik.nazwisko}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Adres E-mail" />
+                        </f:facet>
+                        <h:outputText value="#{uzytkownik.email}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Adres zamieszkania" />
+                        </f:facet>
+                        <h:outputText value="#{uzytkownik.adres}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Hasło" />
+                        </f:facet>
+                        <h:outputText value="#{uzytkownik.haslo}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Usuń" action="#{Zarzadzaj.usunUzytkownika}" />
+                    </h:column>            
+                    <f:facet name="footer">
+                        <h:outputText value="Pozycji: #{Zarzadzaj.uzytkownicySize}" />
+                    </f:facet>
+                </h:dataTable>
+                <hr>
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td>Imię</td>
+                            <td><h:inputText value="#{Uzytkownik.imie}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Nazwisko</td>
+                            <td><h:inputText value="#{Uzytkownik.nazwisko}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Adres E-mail</td>
+                            <td><h:inputText value="#{Uzytkownik.email}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Adres zamieszkania</td>
+                            <td><h:inputText value="#{Uzytkownik.adres}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Hasło</td>
+                            <td><h:inputText value="#{Uzytkownik.haslo}" /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" align="center"><h:commandButton value="Dodaj użytkownika" action="#{Zarzadzaj.dodajUzytkownika}"/></th>
+                        </tr>                
+                    </tfoot>
+                </table>
+                </hr>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+

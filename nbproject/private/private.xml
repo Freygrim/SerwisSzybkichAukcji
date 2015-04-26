@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/test/Kadry.java</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/Kadry.jsp</file>
+            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/Kategoria.java</file>
+            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/Kategorie.jsp</file>
+            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/ZarzadzajKategoriami.java</file>
+            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/WEB-INF/web.xml</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/test/Pracownik.java</file>
         </group>
     </open-files>
