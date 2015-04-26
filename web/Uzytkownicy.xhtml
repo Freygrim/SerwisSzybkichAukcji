@@ -10,6 +10,8 @@
         <f:view>
             <h:form>
                 <h:commandButton value="Powrót do panelu admina" action="adminPanel?faces-redirect=true"/>
+                <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged}" />
+                <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
                 <h:dataTable var="uzytkownik" value="#{Zarzadzaj.uzytkownicy}" border="0">
                     <f:facet name="header">
                         <h:outputText value="Dodani użytkownicy" />

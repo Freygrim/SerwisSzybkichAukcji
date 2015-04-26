@@ -85,15 +85,14 @@ public class Uzytkownik implements Serializable {
         this.haslo = haslo;
     }
     
-    public void reset()
-    {
+    public void reset() {
         imie = "";
         nazwisko = "";
         email = "";
         adres = "";
         haslo = "";
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -103,12 +102,19 @@ public class Uzytkownik implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // Uzytkownicy sa tacy sami jezeli ich emaile sie zgadzaja
         if (!(object instanceof Uzytkownik)) {
             return false;
         }
         Uzytkownik other = (Uzytkownik) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.email == null ||
+            other.email == null ||
+            (this.email != null && !this.email.equals(other.email)) ||
+            this.haslo == null ||
+            other.haslo == null ||
+            (this.haslo != null && !this.haslo.equals(other.haslo))
+            )
+        {
             return false;
         }
         return true;

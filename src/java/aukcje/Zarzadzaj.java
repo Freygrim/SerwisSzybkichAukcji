@@ -66,15 +66,14 @@ public class Zarzadzaj
     {
         return em.createNamedQuery("pobierzKategorie").getResultList();
     }
-    
-    protected List<Uzytkownik> pobierzUzytkownikow()
-    {
-        return em.createNamedQuery("pobierzUzytkownikow").getResultList();
-    }
 
     public int getKategorieSize()
     {
         return kategorieDM.getRowCount();
+    }
+    
+    public List<Uzytkownik> pobierzUzytkownikow() {
+        return em.createNamedQuery("pobierzUzytkownikow").getResultList();
     }
     
     public int getUzytkownicySize()
@@ -144,7 +143,7 @@ public class Zarzadzaj
         try
         {
             tx.begin();
-            em.merge(getAktualnyUzytkownik());
+            em.merge(getUzytkownik());
             tx.commit();
         }
         catch (Exception e)
@@ -155,7 +154,7 @@ public class Zarzadzaj
                 return "UzytDuplikatError?faces-redirect=true";
             }
         }
-        getAktualnyUzytkownik().reset();
+        getUzytkownik().reset();
         return "Uzytkownicy?faces-redirect=true";
     }
     
@@ -163,7 +162,7 @@ public class Zarzadzaj
     @ManagedProperty(value="#{Kategoria}")
     Kategoria kategoria;
     @ManagedProperty(value="#{Uzytkownik}")
-    Uzytkownik aktualnyUzytkownik;
+    Uzytkownik uzytkownik;
 
     public void setKategoria(Kategoria kategoria) {
         this.kategoria = kategoria;
@@ -173,13 +172,11 @@ public class Zarzadzaj
         return this.kategoria;
     }
     
-    public void setAktualnyUzytkownik(Uzytkownik uzytkownik)
-    {
-        this.aktualnyUzytkownik = uzytkownik;
+    public void setUzytkownik(Uzytkownik uzytkownik) {
+        this.uzytkownik = uzytkownik;
     }
     
-    public Uzytkownik getAktualnyUzytkownik()
-    {
-        return this.aktualnyUzytkownik;
+    public Uzytkownik getUzytkownik() {
+        return this.uzytkownik;
     }
 }
