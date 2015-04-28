@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,10 +32,15 @@ public class Uzytkownik implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String imie;
+    @NotNull
     private String nazwisko;
+    @NotNull
     private String email;
+    @NotNull
     private String adres;
+    @NotNull
     private String haslo;
 
     public Long getId() {

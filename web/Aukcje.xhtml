@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Zarządzanie aukcjami</title>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        
+        <script>
+        $(document).ready(function() {
+          $("#datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        });
+        </script>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h:commandButton value="Powrót do panelu admina" action="adminPanel?faces-redirect=true"/>
+                <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged}" />
+                <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
+                <h:dataTable var="aukcja" value="#{Zarzadzaj.aukcje}" border="0">
+                    <f:facet name="header">
+                        <h:outputText value="Dodane aukcje" />
+                    </f:facet>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id Kategorii" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.idKategorii}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id Wystawiającego" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.idWystawiajacego}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.nazwa}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Opis" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.opis}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Zdjęcie" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.zdjecieLink}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Auktualna cena" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.cena}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Data zakończenia" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.dataZakonczenia}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id zwycięzcy" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.idZwyciezcy}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Usuń" action="#{Zarzadzaj.usunAukcje}" />
+                    </h:column>            
+                    <f:facet name="footer">
+                        <h:outputText value="Pozycji: #{Zarzadzaj.aukcjeSize}" />
+                    </f:facet>
+                </h:dataTable>
+                <hr>
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td>Kategoria</td>
+                            <td><h:selectOneMenu value="#{Aukcja.idKategorii}">
+                                <f:selectItems value="#{Zarzadzaj.kategorie}" var="kat"
+                                itemLabel="#{kat.nazwa}" itemValue="#{kat.id}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Wystawiający</td>
+                            <td><h:selectOneMenu value="#{Aukcja.idWystawiajacego}">
+                                <f:selectItems value="#{Zarzadzaj.uzytkownicy}" var="user"
+                                itemLabel="#{user.email}" itemValue="#{user.id}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nazwa</td>
+                            <td><h:inputText value="#{Aukcja.nazwa}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Opis</td>
+                            <td><h:inputText value="#{Aukcja.opis}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Zdjęcie</td>
+                            <td><h:inputText value="#{Aukcja.zdjecieLink}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Cena</td>
+                            <td><h:inputText value="#{Aukcja.cena}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Data zakończenia</td>
+                            <!--styleClass="datepicker"-->
+                            <td>
+                                <h:inputText p:id="datepicker" p:type="date" value="#{Aukcja.dataZakonczenia}">
+                                    <f:convertDateTime pattern="dd-mm-yyyy"/>
+                                </h:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Id zwycięzcy</td>
+                            <td><h:inputText value="#{Aukcja.idZwyciezcy}" /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" align="center"><h:commandButton value="Dodaj aukcję" action="#{Zarzadzaj.dodajAukcje}"/></th>
+                        </tr>                
+                    </tfoot>
+                </table>
+                </hr>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+

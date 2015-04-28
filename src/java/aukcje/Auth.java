@@ -6,9 +6,11 @@
 package aukcje;
 
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -19,6 +21,7 @@ import javax.persistence.PersistenceContext;
 @ManagedBean(name = "Auth")
 @SessionScoped
 public class Auth {
+    private Long id;
     private String login;
     private String haslo;
     private String imie;
@@ -35,6 +38,10 @@ public class Auth {
         login = "";
         haslo = "";
         isLogged = false;
+    }
+    
+    public Long getId() {
+        return this.id;
     }
     
     public String getLogin() {
@@ -84,6 +91,7 @@ public class Auth {
             tmpUser = wszyscyUzytkownicy.get(index);
             imie = tmpUser.getImie();
             nazwisko = tmpUser.getNazwisko();
+            id = tmpUser.getId();
             isLogged = true;
             if("admin".equals(login)) {
                 return "adminPanel?faces-redirect=true";
@@ -95,7 +103,7 @@ public class Auth {
         else {
             login = "";
             haslo = "";
-            return "badLogin?faces-redirect=true";
+            return "badLogin";
         }
     }
     

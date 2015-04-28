@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -32,6 +33,7 @@ public class Kategoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long idNadkategorii;
+    @NotNull
     private String nazwa;
 
     public Long getId() {

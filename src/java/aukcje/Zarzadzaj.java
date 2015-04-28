@@ -33,6 +33,7 @@ public class Zarzadzaj
 
     private DataModel kategorieDM = new ListDataModel();
     private DataModel uzytkownicyDM = new ListDataModel();
+    private DataModel aukcjeDM = new ListDataModel();
 
     public Zarzadzaj() {
         // UWAGA: Kolejność wykonywania DI - serwer aplikacyjny i JSF
@@ -51,18 +52,7 @@ public class Zarzadzaj
         this.kategorieDM = kategorieDM;
     }
     
-    public DataModel getUzytkownicy()
-    {
-        uzytkownicyDM.setWrappedData(pobierzUzytkownikow());
-        return uzytkownicyDM;
-    }
-    
-    public void setUzytkownicy(DataModel uzytkownicyDM)
-    {
-        this.uzytkownicyDM = uzytkownicyDM;
-    }
-
-    protected List<Kategoria> pobierzKategorie()
+        protected List<Kategoria> pobierzKategorie()
     {
         return em.createNamedQuery("pobierzKategorie").getResultList();
     }
@@ -72,15 +62,6 @@ public class Zarzadzaj
         return kategorieDM.getRowCount();
     }
     
-    public List<Uzytkownik> pobierzUzytkownikow() {
-        return em.createNamedQuery("pobierzUzytkownikow").getResultList();
-    }
-    
-    public int getUzytkownicySize()
-    {
-        return uzytkownicyDM.getRowCount();
-    }
-
     public String usunKategorie()
     {
         try
@@ -95,7 +76,7 @@ public class Zarzadzaj
         {
             // zignoruj tymczasowo jedynie dla uproszczenia przykładu
         }
-        return "Kategorie";
+        return "Kategorie?faces-redirect=true";
     }
 
     public String dodajKategorie()
@@ -114,11 +95,31 @@ public class Zarzadzaj
             // tutaj pojawia sie wyjatek jezeli nastepuje proba dodania tej samej kategori
             if(javax.transaction.RollbackException.class == e.getClass())
             {
-                return "KatDuplikatError?faces-redirect=true";
+                return "KatDuplikatError";
             }
         }
         getKategoria().setNazwa("");
         return "Kategorie?faces-redirect=true";
+    }
+    
+    public DataModel getUzytkownicy()
+    {
+        uzytkownicyDM.setWrappedData(pobierzUzytkownikow());
+        return uzytkownicyDM;
+    }
+    
+    public void setUzytkownicy(DataModel uzytkownicyDM)
+    {
+        this.uzytkownicyDM = uzytkownicyDM;
+    }
+    
+    public List<Uzytkownik> pobierzUzytkownikow() {
+        return em.createNamedQuery("pobierzUzytkownikow").getResultList();
+    }
+    
+    public int getUzytkownicySize()
+    {
+        return uzytkownicyDM.getRowCount();
     }
 
     public String usunUzytkownika()
@@ -135,7 +136,7 @@ public class Zarzadzaj
         {
             // zignoruj tymczasowo jedynie dla uproszczenia przykładu
         }
-        return "Uzytkownicy";
+        return "Uzytkownicy?faces-redirect=true";
     }
     
     public String dodajUzytkownika()
@@ -151,19 +152,95 @@ public class Zarzadzaj
             // tutaj pojawia sie wyjatek jezeli nastepuje proba dodania tego samego uzytkownika
             if(javax.transaction.RollbackException.class == e.getClass())
             {
-                return "UzytDuplikatError?faces-redirect=true";
+                return "UzytDuplikatError";
             }
         }
         getUzytkownik().reset();
         return "Uzytkownicy?faces-redirect=true";
     }
     
+    public DataModel getAukcje()
+    {
+        aukcjeDM.setWrappedData(pobierzAukcje());
+        return aukcjeDM;
+    }
+    
+    public DataModel getAukcjeUzytkownika()
+    {
+        aukcjeDM.setWrappedData(pobierzAukcjeUzytkownika());
+        return aukcjeDM;
+    }
+    
+    public void setAukcje(DataModel aukcjeDM)
+    {
+        this.aukcjeDM = aukcjeDM;
+    }
+    
+    public List<Aukcja> pobierzAukcje() {
+        return em.createNamedQuery("pobierzAukcje").getResultList();
+    }
+    
+    public List<Aukcja> pobierzAukcjeUzytkownika() {
+        
+        return em.createNamedQuery("pobierzAukcjeUzytkownika").setParameter("userId", auth.getId()).getResultList();
+    }
+    
+    public int getAukcjeSize()
+    {
+        return aukcjeDM.getRowCount();
+    }
+
+    public String usunAukcje()
+    {
+        try
+        {
+            tx.begin();
+            // UWAGA: JPA wykonując merge zwróci trwałą encję i tylko ta będzie trwała, a nie przekazywany parametr
+            Aukcja aukcja = (Aukcja) em.merge(aukcjeDM.getRowData());
+            em.remove(aukcja);
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            // zignoruj tymczasowo jedynie dla uproszczenia przykładu
+        }
+        return "Aukcje?faces-redirect=true";
+    }
+    
+    public String dodajAukcje()
+    {
+        try
+        {
+            tx.begin();
+            em.merge(getAukcja());
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            // tutaj pojawia sie wyjatek jezeli nastepuje proba dodania tego samego uzytkownika
+            if(javax.transaction.RollbackException.class == e.getClass())
+            {
+                return "AukcjaDuplikatError";
+            }
+        }
+        getAukcja().reset();
+        return "Aukcje?faces-redirect=true";
+    }
+    @ManagedProperty("#{Auth}")
+    private Auth auth; // +setter (no getter!)
+    
     // Korzystamy z DI dla JSF - patrz plik faces-config.xml
     @ManagedProperty(value="#{Kategoria}")
     Kategoria kategoria;
     @ManagedProperty(value="#{Uzytkownik}")
     Uzytkownik uzytkownik;
+    @ManagedProperty(value="#{Aukcja}")
+    Aukcja aukcja;
 
+    public void setAuth(Auth auth) {
+        this.auth = auth;
+    }
+    
     public void setKategoria(Kategoria kategoria) {
         this.kategoria = kategoria;
     }
@@ -178,5 +255,13 @@ public class Zarzadzaj
     
     public Uzytkownik getUzytkownik() {
         return this.uzytkownik;
+    }
+    
+    public void setAukcja(Aukcja aukcja) {
+        this.aukcja = aukcja;
+    }
+    
+    public Aukcja getAukcja() {
+        return this.aukcja;
     }
 }
