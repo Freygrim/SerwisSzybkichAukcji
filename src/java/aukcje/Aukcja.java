@@ -53,6 +53,10 @@ public class Aukcja implements Serializable {
     private Date dataZakonczenia;
     private Long idZwyciezcy;
 
+    public Aukcja() {
+        this.dataZakonczenia = new Date();
+    }
+
     public Long getId() {
         return id;
     }
@@ -115,6 +119,10 @@ public class Aukcja implements Serializable {
     
     public void setDataZakonczenia(Date dataZakonczenia) {
         this.dataZakonczenia = dataZakonczenia;
+    }
+    
+    public String getPrzekazanaData() {
+        return dataZakonczenia.toString();
     }
     
     public Long getIdZwyciezcy() {

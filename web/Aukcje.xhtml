@@ -72,7 +72,9 @@
                         <f:facet name="header">
                             <h:outputText value="Data zakończenia" />
                         </f:facet>
-                        <h:outputText value="#{aukcja.dataZakonczenia}" style='align:center' />
+                        <h:outputText value="#{aukcja.dataZakonczenia}" style='align:center'>
+                            <!--f:convertDateTime pattern="dd-MM-yyyy"/-->
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -126,9 +128,10 @@
                             <td>Data zakończenia</td>
                             <!--styleClass="datepicker"-->
                             <td>
-                                <h:inputText p:id="datepicker" p:type="date" value="#{Aukcja.dataZakonczenia}">
-                                    <f:convertDateTime pattern="dd-mm-yyyy"/>
+                                <h:inputText p:id="datepicker" p:type="date" p:placeholder="30-12-1970" value="#{Aukcja.dataZakonczenia}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
                                 </h:inputText>
+                                <!--h:outputText value="#{Aukcja.przekazanaData}" /-->
                             </td>
                         </tr>
                         <tr>
