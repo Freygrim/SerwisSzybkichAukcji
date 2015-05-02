@@ -22,6 +22,7 @@ import javax.persistence.PersistenceContext;
 @SessionScoped
 public class Auth {
     private Long id;
+    private Long idWybranejKategorii;
     private String login;
     private String haslo;
     private String imie;
@@ -38,6 +39,7 @@ public class Auth {
         login = "";
         haslo = "";
         isLogged = false;
+        idWybranejKategorii = 351L;
     }
     
     public Long getId() {
@@ -68,8 +70,20 @@ public class Auth {
         this.nazwisko = nazwisko;
     }
     
+    public void setIdWybranejKategroii(Long id) {
+        this.idWybranejKategorii = id;
+    }
+    
+    public Long getIdWybranejKategorii() {
+        return this.idWybranejKategorii;
+    }
+    
     public Boolean getIsLogged() {
         return isLogged;
+    }
+    
+    public Boolean getIsAdmin() {
+        return this.isLogged && "admin".equals(this.login);
     }
     
     public String getZalogowanyJako() {
@@ -94,10 +108,10 @@ public class Auth {
             id = tmpUser.getId();
             isLogged = true;
             if("admin".equals(login)) {
-                return "adminPanel?faces-redirect=true";
+                return "admin/adminPanel?faces-redirect=true";
             }
             else {
-                return "userPanel?faces-redirect=true";
+                return "user/userPanel?faces-redirect=true";
             }
         }
         else {
@@ -111,6 +125,8 @@ public class Auth {
         isLogged = false;
         login = "";
         haslo = "";
-        return "index?faces-redirect=true";
+        idWybranejKategorii = 351L;
+        id = 0L;
+        return "/faces/index?faces-redirect=true";
     }
 }

@@ -34,6 +34,8 @@ public class Zarzadzaj
     private DataModel kategorieDM = new ListDataModel();
     private DataModel uzytkownicyDM = new ListDataModel();
     private DataModel aukcjeDM = new ListDataModel();
+    private List<Kategoria> nazwyKategorii;
+    private List<Uzytkownik> nazwyUzytkownikow;
 
     public Zarzadzaj() {
         // UWAGA: Kolejność wykonywania DI - serwer aplikacyjny i JSF
@@ -44,6 +46,7 @@ public class Zarzadzaj
     public DataModel getKategorie()
     {
         kategorieDM.setWrappedData(pobierzKategorie());
+        this.nazwyKategorii = pobierzKategorie();
         return kategorieDM;
     }
 
@@ -162,12 +165,16 @@ public class Zarzadzaj
     public DataModel getAukcje()
     {
         aukcjeDM.setWrappedData(pobierzAukcje());
+        this.nazwyKategorii = pobierzKategorie();
+        this.nazwyUzytkownikow = pobierzUzytkownikow();
         return aukcjeDM;
     }
     
     public DataModel getAukcjeUzytkownika()
     {
         aukcjeDM.setWrappedData(pobierzAukcjeUzytkownika());
+        this.nazwyKategorii = pobierzKategorie();
+        this.nazwyUzytkownikow = pobierzUzytkownikow();
         return aukcjeDM;
     }
     
@@ -226,6 +233,23 @@ public class Zarzadzaj
         getAukcja().reset();
         return "Aukcje?faces-redirect=true";
     }
+    
+    public String getNazwaKatPoId(Long id) {
+        for(Kategoria kategoria : this.nazwyKategorii) {
+            if(id.equals(kategoria.getId()))
+                return kategoria.getNazwa();
+        }
+        return "";
+    }
+    
+    public String getEmailPoId(Long id) {
+        for(Uzytkownik uzytkownik : this.nazwyUzytkownikow) {
+            if(uzytkownik.getId().equals(id))
+                return uzytkownik.getEmail();
+        }
+        return "";
+    }
+    
     @ManagedProperty("#{Auth}")
     private Auth auth; // +setter (no getter!)
     

@@ -36,13 +36,13 @@
                         <f:facet name="header">
                             <h:outputText value="Id Kategorii" />
                         </f:facet>
-                        <h:outputText value="#{aukcja.idKategorii}" />
+                        <h:outputText value="#{Zarzadzaj.getNazwaKatPoId(aukcja.idKategorii)}" />
                     </h:column>
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Id Wystawiającego" />
                         </f:facet>
-                        <h:outputText value="#{aukcja.idWystawiajacego}" style='align:center' />
+                        <h:outputText value="#{Zarzadzaj.getEmailPoId(aukcja.idWystawiajacego)}" style='align:center' />
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -80,7 +80,7 @@
                         <f:facet name="header">
                             <h:outputText value="Id zwycięzcy" />
                         </f:facet>
-                        <h:outputText value="#{aukcja.idZwyciezcy}" style='align:center' />
+                        <h:outputText value="#{Zarzadzaj.getEmailPoId(aukcja.idZwyciezcy)}" style='align:center' />
                     </h:column>
                     <h:column>
                         <h:commandButton value="Usuń" action="#{Zarzadzaj.usunAukcje}" />
