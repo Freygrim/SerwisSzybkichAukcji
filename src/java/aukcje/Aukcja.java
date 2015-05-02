@@ -29,7 +29,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "AUKCJE")
 @NamedQueries({
 @NamedQuery(name = "pobierzAukcje", query = "SELECT p FROM Aukcja p GROUP BY p.id"),
-@NamedQuery(name = "pobierzAukcjeUzytkownika", query = "SELECT p FROM Aukcja p WHERE p.idWystawiajacego = :userId GROUP BY p.id")})
+@NamedQuery(name = "pobierzAukcjeUzytkownika", query = "SELECT p FROM Aukcja p WHERE p.idWystawiajacego = :userId GROUP BY p.id"),
+@NamedQuery(name = "pobierzAukcjeWKategorii", query = "SELECT p FROM Aukcja p WHERE p.idKategorii = :catId GROUP BY p.id")
+})
 @ManagedBean(name="Aukcja")
 @RequestScoped
 public class Aukcja implements Serializable {

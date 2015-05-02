@@ -178,6 +178,14 @@ public class Zarzadzaj
         return aukcjeDM;
     }
     
+    public DataModel getAukcjeWKategorii()
+    {
+        aukcjeDM.setWrappedData(pobierzAukcjeWKategorii());
+        this.nazwyKategorii = pobierzKategorie();
+        this.nazwyUzytkownikow = pobierzUzytkownikow();
+        return aukcjeDM;
+    }
+    
     public void setAukcje(DataModel aukcjeDM)
     {
         this.aukcjeDM = aukcjeDM;
@@ -190,6 +198,11 @@ public class Zarzadzaj
     public List<Aukcja> pobierzAukcjeUzytkownika() {
         
         return em.createNamedQuery("pobierzAukcjeUzytkownika").setParameter("userId", auth.getId()).getResultList();
+    }
+    
+    public List<Aukcja> pobierzAukcjeWKategorii() {
+        
+        return em.createNamedQuery("pobierzAukcjeWKategorii").setParameter("catId", auth.getIdWybranejKategorii()).getResultList();
     }
     
     public int getAukcjeSize()

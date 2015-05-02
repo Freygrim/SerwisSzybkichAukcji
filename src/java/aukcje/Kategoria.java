@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -24,7 +25,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "KATEGORIE",
        uniqueConstraints = @UniqueConstraint(columnNames={"nazwa"}))
-@NamedQuery(name = "pobierzKategorie", query = "SELECT p FROM Kategoria p GROUP BY p.id")
+@NamedQueries({
+@NamedQuery(name = "pobierzKategorie", query = "SELECT p FROM Kategoria p GROUP BY p.id"),
+@NamedQuery(name = "pobierzKategoriePoId", query = "SELECT p FROM Kategoria p WHERE p.id = :catId"),
+@NamedQuery(name = "pobierzKategoriePoIdNad", query = "SELECT p FROM Kategoria p WHERE p.idNadkategorii = :catId GROUP BY p.id")
+})
 @ManagedBean(name="Kategoria")
 @RequestScoped
 public class Kategoria implements Serializable {
