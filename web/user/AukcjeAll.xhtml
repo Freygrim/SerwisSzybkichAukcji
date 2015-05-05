@@ -9,6 +9,7 @@
     </h:head>
     <h:body>
         <h:form>
+            <h:commandButton value="Powrót do panelu użytkownika" action="userPanel?faces-redirect=true"/>
             <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged}" />
             <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
             <br><br>
@@ -24,7 +25,7 @@
                 </h1>
                 <h:dataTable var="aukcja" value="#{Zarzadzaj.aukcjeWKategorii}" border="0">
                     <f:facet name="header">
-                        <h:outputText value="Dodane aukcje" />
+                        <!--h:outputText value="Dodane aukcje" /-->
                     </f:facet>
                     <h:column>
                         <f:facet name="header">
@@ -83,8 +84,20 @@
                         <h:outputText value="#{Zarzadzaj.getEmailPoId(aukcja.idZwyciezcy)}" style='align:center' />
                     </h:column>
                     <h:column>
-                        <h:commandButton value="Usuń" action="#{Zarzadzaj.usunAukcje}" />
-                    </h:column>            
+                        <f:facet name="header">
+                            <h:outputText value="Status" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.status}" style='align:center' />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Kwota licytacji"/>
+                        </f:facet>
+                        <h:inputText value="#{Zarzadzaj.kwota}" />
+                    </h:column> 
+                    <h:column>
+                        <h:commandButton value="Licytuj" action="#{Zarzadzaj.licytuj}" />
+                    </h:column> 
                     <f:facet name="footer">
                         <h:outputText value="Pozycji: #{Zarzadzaj.aukcjeSize}" />
                     </f:facet>

@@ -5,6 +5,7 @@
  */
 package aukcje;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
@@ -36,11 +37,13 @@ public class Zarzadzaj
     private DataModel aukcjeDM = new ListDataModel();
     private List<Kategoria> nazwyKategorii;
     private List<Uzytkownik> nazwyUzytkownikow;
+    private List<Aukcja> aktualneAukcje;
 
     public Zarzadzaj() {
         // UWAGA: Kolejność wykonywania DI - serwer aplikacyjny i JSF
         // Korzystając z DI dla EM i korzystając z niego w konstruktorze nie można skorzystać z DI poprzez
         // faces-config.xml
+        aktualneAukcje = new ArrayList<Aukcja>();
     }
 
     public DataModel getKategorie()
@@ -196,13 +199,15 @@ public class Zarzadzaj
     }
     
     public List<Aukcja> pobierzAukcjeUzytkownika() {
-        
         return em.createNamedQuery("pobierzAukcjeUzytkownika").setParameter("userId", auth.getId()).getResultList();
     }
     
-    public List<Aukcja> pobierzAukcjeWKategorii() {
-        
+    public List<Aukcja> pobierzAukcjeWKategorii() {    
         return em.createNamedQuery("pobierzAukcjeWKategorii").setParameter("catId", auth.getIdWybranejKategorii()).getResultList();
+    }
+    
+    public Aukcja pobierzAukcjePoId(Long id) {      
+        return (Aukcja)em.createNamedQuery("pobierzAukcjePoId").setParameter("aukcjaId", id).getSingleResult();
     }
     
     public int getAukcjeSize()
@@ -210,6 +215,27 @@ public class Zarzadzaj
         return aukcjeDM.getRowCount();
     }
 
+    public String licytuj() {
+        try
+        {
+            tx.begin();
+            // UWAGA: JPA wykonując merge zwróci trwałą encję i tylko ta będzie trwała, a nie przekazywany parametr
+            Aukcja aukcja = em.merge(pobierzAukcjePoId(((Aukcja)aukcjeDM.getRowData()).getId())); // siegamy bezposrednio do bazy
+            int kwota = getKwota();
+            if(aukcja.getCena() < kwota)
+            {
+                aukcja.setCena(kwota);
+                aukcja.setIdZwyciezcy(auth.getId());
+            }
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            // zignoruj tymczasowo jedynie dla uproszczenia przykładu
+        }
+        return "AukcjeAll?faces-redirect=true";
+    }
+    
     public String usunAukcje()
     {
         try
@@ -273,7 +299,7 @@ public class Zarzadzaj
     Uzytkownik uzytkownik;
     @ManagedProperty(value="#{Aukcja}")
     Aukcja aukcja;
-
+    
     public void setAuth(Auth auth) {
         this.auth = auth;
     }
@@ -300,5 +326,22 @@ public class Zarzadzaj
     
     public Aukcja getAukcja() {
         return this.aukcja;
+    }
+    
+    public  void setKwota(int kwota) {
+        int index = aukcjeDM.getRowIndex();
+        this.aktualneAukcje = (List<Aukcja>)aukcjeDM.getWrappedData();
+ 
+        this.aktualneAukcje.get(index).setCena(kwota);
+    }
+    
+    public int getKwota() {
+        int index = aukcjeDM.getRowIndex();
+        if(this.aktualneAukcje.size() > index) {
+            return this.aktualneAukcje.get(index).getCena();
+        }
+        else {
+            return 0;
+        }
     }
 }

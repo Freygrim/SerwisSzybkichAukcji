@@ -30,7 +30,8 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
 @NamedQuery(name = "pobierzAukcje", query = "SELECT p FROM Aukcja p GROUP BY p.id"),
 @NamedQuery(name = "pobierzAukcjeUzytkownika", query = "SELECT p FROM Aukcja p WHERE p.idWystawiajacego = :userId GROUP BY p.id"),
-@NamedQuery(name = "pobierzAukcjeWKategorii", query = "SELECT p FROM Aukcja p WHERE p.idKategorii = :catId GROUP BY p.id")
+@NamedQuery(name = "pobierzAukcjeWKategorii", query = "SELECT p FROM Aukcja p WHERE p.idKategorii = :catId GROUP BY p.id"),
+@NamedQuery(name = "pobierzAukcjePoId", query = "SELECT p FROM Aukcja p WHERE p.id = :aukcjaId")
 })
 @ManagedBean(name="Aukcja")
 @RequestScoped
@@ -54,9 +55,13 @@ public class Aukcja implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dataZakonczenia;
     private Long idZwyciezcy;
+    
+    @NotNull
+    private String status;
 
     public Aukcja() {
         this.dataZakonczenia = new Date();
+        this.status = "Trwająca";
     }
 
     public Long getId() {
@@ -135,6 +140,18 @@ public class Aukcja implements Serializable {
         this.idZwyciezcy = idZwyciezcy;
     }
     
+    public String getStatus() {
+        return this.status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public void zakoncz() {
+        status = "Zakończona";
+    }
+    
     public void reset() {
         idKategorii = 0L;
         idWystawiajacego = 0L;
@@ -144,6 +161,7 @@ public class Aukcja implements Serializable {
         cena = 0;
         dataZakonczenia = new Date();
         idZwyciezcy = 0L;
+        status = "Trwająca";
     }
     
     @Override
