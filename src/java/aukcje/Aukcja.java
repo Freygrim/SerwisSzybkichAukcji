@@ -164,6 +164,15 @@ public class Aukcja implements Serializable {
         status = "Trwająca";
     }
     
+    public Boolean getNieZakonczona() {
+        if (this.status.equals("Zakończona")) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

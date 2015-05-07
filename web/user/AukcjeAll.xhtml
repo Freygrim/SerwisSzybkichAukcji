@@ -96,7 +96,7 @@
                         <h:inputText value="#{Zarzadzaj.kwota}" />
                     </h:column> 
                     <h:column>
-                        <h:commandButton value="Licytuj" action="#{Zarzadzaj.licytuj}" />
+                        <h:commandButton value="Licytuj" action="#{Zarzadzaj.licytuj}" rendered="#{aukcja.nieZakonczona}"/>
                     </h:column> 
                     <f:facet name="footer">
                         <h:outputText value="Pozycji: #{Zarzadzaj.aukcjeSize}" />
