@@ -29,6 +29,7 @@ public class Auth {
     private String imie;
     private String nazwisko;
     private Boolean isLogged;
+    private Boolean mozeLicytowac;
     
     @PersistenceContext(name = "SerwisSzybkichAukcjiPU")
     EntityManager em;
@@ -42,6 +43,7 @@ public class Auth {
         isLogged = false;
         idWybranejKategorii = 351L;
         idNadkategorii = 0L;
+        mozeLicytowac = false;
     }
     
     public Long getId() {
@@ -104,6 +106,10 @@ public class Auth {
         return isLogged;
     }
     
+    public Boolean getMozeLicytowac() {
+        return this.mozeLicytowac;
+    }
+    
     public Boolean getIsAdmin() {
         return this.isLogged && "admin".equals(this.login);
     }
@@ -141,6 +147,7 @@ public class Auth {
             nazwisko = tmpUser.getNazwisko();
             id = tmpUser.getId();
             isLogged = true;
+            mozeLicytowac = tmpUser.getMozeLicytowac();
             if("admin".equals(login)) {
                 return "admin/adminPanel?faces-redirect=true";
             }
@@ -162,6 +169,7 @@ public class Auth {
         idWybranejKategorii = 351L;
         id = 0L;
         idNadkategorii = 0L;
+        mozeLicytowac = false;
         return "/faces/index?faces-redirect=true";
     }
 }

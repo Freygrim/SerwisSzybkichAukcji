@@ -236,6 +236,27 @@ public class Zarzadzaj
         return "AukcjeAll?faces-redirect=true";
     }
     
+    public String kup() {
+        try
+        {
+            tx.begin();
+            // UWAGA: JPA wykonując merge zwróci trwałą encję i tylko ta będzie trwała, a nie przekazywany parametr
+            Aukcja aukcja = em.merge(pobierzAukcjePoId(((Aukcja)aukcjeDM.getRowData()).getId())); // siegamy bezposrednio do bazy
+            
+            if(aukcja.getNieZakonczona())
+            {
+                aukcja.zakoncz();
+                aukcja.setIdZwyciezcy(auth.getId());
+            }
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            // zignoruj tymczasowo jedynie dla uproszczenia przykładu
+        }
+        return "AukcjeAll?faces-redirect=true";
+    }
+    
     public String usunAukcje()
     {
         try

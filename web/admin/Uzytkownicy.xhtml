@@ -53,6 +53,12 @@
                         <h:outputText value="#{uzytkownik.haslo}" style='align:center' />
                     </h:column>
                     <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Może licytować?" />
+                        </f:facet>
+                        <h:outputText value="#{uzytkownik.mozeLicytowac}" style='align:center' />
+                    </h:column>
+                    <h:column>
                         <h:commandButton value="Usuń" action="#{Zarzadzaj.usunUzytkownika}" />
                     </h:column>            
                     <f:facet name="footer">
@@ -81,6 +87,10 @@
                         <tr>
                             <td>Hasło</td>
                             <td><h:inputText value="#{Uzytkownik.haslo}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Może licytować?</td>
+                            <td><h:selectBooleanCheckbox value="#{Uzytkownik.mozeLicytowac}" /></td>
                         </tr>
                     </tbody>
                     <tfoot>

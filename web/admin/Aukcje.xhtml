@@ -89,6 +89,12 @@
                         <h:outputText value="#{aukcja.status}" style='align:center' />
                     </h:column>
                     <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Licytacja?" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.licytacja}" style='align:center' />
+                    </h:column>
+                    <h:column>
                         <h:commandButton value="Usuń" action="#{Zarzadzaj.usunAukcje}" />
                     </h:column>            
                     <f:facet name="footer">
@@ -143,6 +149,10 @@
                         <tr>
                             <td>Id zwycięzcy</td>
                             <td><h:inputText value="#{Aukcja.idZwyciezcy}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Licytacja?</td>
+                            <td><h:selectBooleanCheckbox value="#{Aukcja.licytacja}" /></td>
                         </tr>
                     </tbody>
                     <tfoot>

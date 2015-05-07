@@ -51,7 +51,7 @@ public class FiltrPrzedawnionychAukcji implements Filter {
 
                 if(aukcja.getDataZakonczenia().before(dzisiaj))
                 {
-                    aukcja.setStatus("Zakończona");
+                    aukcja.zakoncz();
                 }
                 tx.commit();
             }

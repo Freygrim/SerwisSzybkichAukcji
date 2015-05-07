@@ -32,16 +32,23 @@ public class Uzytkownik implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @NotNull
     private String imie;
+    
     @NotNull
     private String nazwisko;
+    
     @NotNull
     private String email;
-    @NotNull
+    
     private String adres;
+    
     @NotNull
     private String haslo;
+    
+    @NotNull
+    private Boolean mozeLicytowac;
 
     public Long getId() {
         return id;
@@ -91,12 +98,21 @@ public class Uzytkownik implements Serializable {
         this.haslo = haslo;
     }
     
+    public Boolean getMozeLicytowac() {
+        return this.mozeLicytowac;
+    }
+    
+    public void setMozeLicytowac(Boolean moze) {
+        this.mozeLicytowac = moze;
+    }
+    
     public void reset() {
         imie = "";
         nazwisko = "";
         email = "";
         adres = "";
         haslo = "";
+        mozeLicytowac = false;
     }
     
     @Override

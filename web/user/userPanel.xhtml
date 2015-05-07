@@ -13,7 +13,7 @@
             <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
             <br><br>
                 <h:commandButton value="Przeglądaj wszystkie aukcje" action="AukcjeAll?faces-redirect=true"/>
-                <h:commandButton value="Dodaj aukcję" action="DodajAukcje?faces-redirect=true"/>
+                <h:commandButton value="Dodaj aukcję" action="DodajAukcje?faces-redirect=true" rendered="#{Auth.mozeLicytowac}"/>
             </br></br>
             <hr>
                 <h1>

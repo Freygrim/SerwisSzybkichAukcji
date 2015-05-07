@@ -19,6 +19,7 @@
             </br>
                 <h:commandButton value="Powrót" action="#{Auth.setIdWybranejKategroii(Auth.idNadkategorii)}" rendered="#{Auth.isNotMainCat}"/>
             </br>
+            <h:commandButton value="Dodaj aukcję" action="DodajAukcje?faces-redirect=true" rendered="#{Auth.mozeLicytowac}"/>
             <hr>
                 <h1>
                     <h:outputText value="#{Auth.nazwaKat}" />
@@ -91,12 +92,13 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Kwota licytacji"/>
+                            <h:outputText value="Twoja proponowana kwota"/>
                         </f:facet>
-                        <h:inputText value="#{Zarzadzaj.kwota}" />
+                        <h:inputText value="#{Zarzadzaj.kwota}" rendered="#{aukcja.licytacja}"/>
                     </h:column> 
                     <h:column>
-                        <h:commandButton value="Licytuj" action="#{Zarzadzaj.licytuj}" rendered="#{aukcja.nieZakonczona}"/>
+                        <h:commandButton value="Licytuj" action="#{Zarzadzaj.licytuj}" rendered="#{aukcja.nieZakonczona and Auth.mozeLicytowac and aukcja.licytacja}"/>
+                        <h:commandButton value="Kup" action="#{Zarzadzaj.kup}" rendered="#{aukcja.nieZakonczona and Auth.mozeLicytowac and not aukcja.licytacja}"/>
                     </h:column> 
                     <f:facet name="footer">
                         <h:outputText value="Pozycji: #{Zarzadzaj.aukcjeSize}" />

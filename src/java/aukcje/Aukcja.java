@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 /**
  *
@@ -40,24 +41,35 @@ public class Aukcja implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @NotNull
     private Long idKategorii;
+    
     @NotNull
     private Long idWystawiajacego;
+    
     @NotNull
     private String nazwa;
+    
     @NotNull
     private String opis;
+    
     private String zdjecieLink;
+    
     @NotNull
     private int cena;
+    
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date dataZakonczenia;
+    
     private Long idZwyciezcy;
     
     @NotNull
     private String status;
+    
+    @NotNull
+    private Boolean licytacja;
 
     public Aukcja() {
         this.dataZakonczenia = new Date();
@@ -146,6 +158,14 @@ public class Aukcja implements Serializable {
     
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public Boolean getLicytacja() {
+        return this.licytacja;
+    }
+    
+    public void setLicytacja(Boolean l) {
+        this.licytacja = l;
     }
     
     public void zakoncz() {
