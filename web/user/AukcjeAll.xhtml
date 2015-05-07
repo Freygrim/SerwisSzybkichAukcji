@@ -94,7 +94,7 @@
                         <f:facet name="header">
                             <h:outputText value="Twoja proponowana kwota"/>
                         </f:facet>
-                        <h:inputText value="#{Zarzadzaj.kwota}" rendered="#{aukcja.licytacja}"/>
+                        <h:inputText value="#{Zarzadzaj.kwota}" rendered="#{aukcja.nieZakonczona and Auth.mozeLicytowac and aukcja.licytacja}"/>
                     </h:column> 
                     <h:column>
                         <h:commandButton value="Licytuj" action="#{Zarzadzaj.licytuj}" rendered="#{aukcja.nieZakonczona and Auth.mozeLicytowac and aukcja.licytacja}"/>

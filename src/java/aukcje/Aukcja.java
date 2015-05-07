@@ -18,9 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
 
 /**
  *
@@ -63,6 +61,10 @@ public class Aukcja implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dataZakonczenia;
     
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    private Date dataRozpoczecia;
+    
     private Long idZwyciezcy;
     
     @NotNull
@@ -73,6 +75,7 @@ public class Aukcja implements Serializable {
 
     public Aukcja() {
         this.dataZakonczenia = new Date();
+        this.dataRozpoczecia = new Date();
         this.status = "Trwająca";
     }
 
@@ -140,6 +143,14 @@ public class Aukcja implements Serializable {
         this.dataZakonczenia = dataZakonczenia;
     }
     
+    public Date getDataRozpoczecia() {
+        return this.dataRozpoczecia;
+    }
+    
+    public void setDataRozpoczecia(Date dataRozpoczecia) {
+        this.dataRozpoczecia = dataRozpoczecia;
+    }
+    
     public String getPrzekazanaData() {
         return dataZakonczenia.toString();
     }
@@ -180,6 +191,7 @@ public class Aukcja implements Serializable {
         zdjecieLink = "";
         cena = 0;
         dataZakonczenia = new Date();
+        dataRozpoczecia = new Date();
         idZwyciezcy = 0L;
         status = "Trwająca";
     }

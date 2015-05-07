@@ -70,6 +70,14 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
+                            <h:outputText value="Data rozpoczęcia" />
+                        </f:facet>
+                        <h:outputText value="#{aukcja.dataRozpoczecia}" style='align:center'>
+                            <!--f:convertDateTime pattern="dd-MM-yyyy"/-->
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
                             <h:outputText value="Data zakończenia" />
                         </f:facet>
                         <h:outputText value="#{aukcja.dataZakonczenia}" style='align:center'>
