@@ -21,6 +21,8 @@ public class Wybory {
 
     private Long idWybranejKategorii;
     private Long idNadkategorii;
+    private Long idWybranegoUzytkownika;
+    private Boolean modyfikacjaSiebie;
     
     @PersistenceContext(name = "SerwisSzybkichAukcjiPU")
     EntityManager em;
@@ -31,6 +33,8 @@ public class Wybory {
     public Wybory() {
         idWybranejKategorii = 351L;
         idNadkategorii = 0L;
+        idWybranegoUzytkownika = 0L;
+        modyfikacjaSiebie = false;
     }
     
     public String setIdWybranejKategroii(Long id) {
@@ -71,5 +75,21 @@ public class Wybory {
     
     public List<Kategoria> getPobierzPodkategorie() {
         return em.createNamedQuery("pobierzKategoriePoIdNad").setParameter("catId", this.idWybranejKategorii).getResultList();
+    }
+    
+    public Long getIdWybranegoUzytkownika() {
+        return this.idWybranegoUzytkownika;
+    }
+    
+    public void setIdWybranegoUzytkownika(Long idWybranegoUzytkownika) {
+        this.idWybranegoUzytkownika = idWybranegoUzytkownika;
+    }
+    
+    public Boolean getModyfikacjaSiebie() {
+        return this.modyfikacjaSiebie;
+    }
+    
+    public void setModyfikacjaSiebie(Boolean mod) {
+        this.modyfikacjaSiebie = mod;
     }
 }

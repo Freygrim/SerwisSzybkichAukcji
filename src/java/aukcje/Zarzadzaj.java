@@ -38,6 +38,7 @@ public class Zarzadzaj
     private List<Kategoria> nazwyKategorii;
     private List<Uzytkownik> nazwyUzytkownikow;
     private List<Aukcja> aktualneAukcje;
+    private Uzytkownik uzytkownikPrywatny;
 
     public Zarzadzaj() {
         // UWAGA: Kolejność wykonywania DI - serwer aplikacyjny i JSF
@@ -163,6 +164,65 @@ public class Zarzadzaj
         }
         getUzytkownik().reset();
         return "Uzytkownicy?faces-redirect=true";
+    }
+    
+    public Uzytkownik getUzytkownikPrywatny() {
+        return this.uzytkownikPrywatny;
+    }
+    
+    public String modyfikujUzytkownika() {
+        wybory.setIdWybranegoUzytkownika( ((Uzytkownik) uzytkownicyDM.getRowData()).getId());
+        wybory.setModyfikacjaSiebie(false);
+        return "/user/userModify?faces-redirect=true";
+    }
+    
+    public String modyfikujSiebie() {
+        wybory.setIdWybranegoUzytkownika(auth.getId());
+        wybory.setModyfikacjaSiebie(true);
+        return "/user/userModify?faces-redirect=true";
+    }
+    
+    public Boolean zaladujUzytkownika() {
+        uzytkownikPrywatny = (Uzytkownik)em.createNamedQuery("pobierzUzytkownikaPoId").setParameter("userId", wybory.getIdWybranegoUzytkownika()).getSingleResult();
+        return true;
+    }
+    
+    public String zatwierdzModyfikacjeUzytkownika() {
+        try
+        {
+            tx.begin();
+            if(this.uzytkownikPrywatny.getAdres().isEmpty()) {
+                this.uzytkownikPrywatny.setMozeLicytowac(false);
+            }
+            else {
+                this.uzytkownikPrywatny.setMozeLicytowac(true);
+            }
+            em.merge(this.uzytkownikPrywatny);
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+            // tutaj pojawia sie wyjatek jezeli nastepuje proba dodania tego samego uzytkownika
+            if(javax.transaction.RollbackException.class == e.getClass())
+            {
+                return "UzytDuplikatError";
+            }
+        }
+        if(wybory.getModyfikacjaSiebie()) {
+            return "/user/userPanel?faces-redirect=true";
+        }
+        else {
+            return "/admin/Uzytkownicy?faces-redirect=true";
+        }
+    }
+    
+    public String anulujModyfikacjeUzytkownika() {
+        if(wybory.getModyfikacjaSiebie()) {
+            return "/user/userPanel?faces-redirect=true";
+        }
+        else {
+            return "/admin/Uzytkownicy?faces-redirect=true";
+        }
     }
     
     public DataModel getAukcje()

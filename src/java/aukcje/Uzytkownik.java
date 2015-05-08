@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -24,7 +25,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "UZYTKOWNICY",
        uniqueConstraints = @UniqueConstraint(columnNames={"email"}))
-@NamedQuery(name = "pobierzUzytkownikow", query = "SELECT p FROM Uzytkownik p GROUP BY p.id")
+@NamedQueries({
+@NamedQuery(name = "pobierzUzytkownikow", query = "SELECT p FROM Uzytkownik p GROUP BY p.id"),
+@NamedQuery(name = "pobierzUzytkownikaPoId", query = "SELECT p FROM Uzytkownik p WHERE p.id = :userId"),
+})
 @ManagedBean(name="Uzytkownik")
 @RequestScoped
 public class Uzytkownik implements Serializable {

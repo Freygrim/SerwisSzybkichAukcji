@@ -65,6 +65,9 @@
                         <h:outputText value="#{uzytkownik.admin}" style='align:center' />
                     </h:column>
                     <h:column>
+                        <h:commandButton value="Modyfikuj" action="#{Zarzadzaj.modyfikujUzytkownika}" />
+                    </h:column> 
+                    <h:column>
                         <h:commandButton value="Usuń" action="#{Zarzadzaj.usunUzytkownika}" />
                     </h:column>            
                     <f:facet name="footer">

@@ -11,95 +11,16 @@
         <h:form>
             <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged}" />
             <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
-            <br><br>
+            <br>
+                <h:commandButton value="Do panelu użytkownika" action="/user/userPanel?faces-redirect=true"/>
+            <br>
                 <h:commandButton value="Zarządzaj kategoriami" action="Kategorie?faces-redirect=true"/>
                 <h:commandButton value="Zarządzaj użytkownikami" action="Uzytkownicy?faces-redirect=true"/>
                 <h:commandButton value="Zarządzaj aukcjami" action="Aukcje?faces-redirect=true"/>
                 <h:commandButton value="Test" action="Test?faces-redirect=true"/>
             </br></br>
             <hr>
-                <h1>
-                    Twoje aukcje:
-                </h1>
-                <h:dataTable var="aukcja" value="#{Zarzadzaj.aukcjeUzytkownika}" border="0">
-                    <f:facet name="header">
-                        <h:outputText value="Dodane aukcje" />
-                    </f:facet>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Id" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.id}" />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Id Kategorii" />
-                        </f:facet>
-                        <h:outputText value="#{Zarzadzaj.getNazwaKatPoId(aukcja.idKategorii)}" />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Id Wystawiającego" />
-                        </f:facet>
-                        <h:outputText value="#{Zarzadzaj.getEmailPoId(aukcja.idWystawiajacego)}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Nazwa" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.nazwa}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Opis" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.opis}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Zdjęcie" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.zdjecieLink}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Auktualna cena" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.cena}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Data zakończenia" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.dataZakonczenia}" style='align:center'>
-                            <!--f:convertDateTime pattern="dd-MM-yyyy"/-->
-                        </h:outputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Id zwycięzcy" />
-                        </f:facet>
-                        <h:outputText value="#{Zarzadzaj.getEmailPoId(aukcja.idZwyciezcy)}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Status" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.status}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Licytacja?" />
-                        </f:facet>
-                        <h:outputText value="#{aukcja.licytacja}" style='align:center' />
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Usuń" action="#{Zarzadzaj.usunAukcje}" />
-                    </h:column>            
-                    <f:facet name="footer">
-                        <h:outputText value="Pozycji: #{Zarzadzaj.aukcjeSize}" />
-                    </f:facet>
-                </h:dataTable>
+                
             </hr>
         </h:form>
     </h:body>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Zarządzanie użytkownikami</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged and Zarzadzaj.zaladujUzytkownika()}" />
+                <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
+                <hr>
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td>Imię</td>
+                            <td><h:inputText value="#{Zarzadzaj.uzytkownikPrywatny.imie}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Nazwisko</td>
+                            <td><h:inputText value="#{Zarzadzaj.uzytkownikPrywatny.nazwisko}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Adres E-mail</td>
+                            <td><h:inputText value="#{Zarzadzaj.uzytkownikPrywatny.email}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Adres zamieszkania</td>
+                            <td><h:inputText value="#{Zarzadzaj.uzytkownikPrywatny.adres}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Hasło</td>
+                            <td><h:inputText value="#{Zarzadzaj.uzytkownikPrywatny.haslo}" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="Może licytować?" rendered="#{not Wybory.modyfikacjaSiebie}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{Zarzadzaj.uzytkownikPrywatny.mozeLicytowac}" rendered="#{not Wybory.modyfikacjaSiebie}" /></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="Admin?" rendered="#{not Wybory.modyfikacjaSiebie}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{Zarzadzaj.uzytkownikPrywatny.admin}" rendered="#{not Wybory.modyfikacjaSiebie}"/></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" align="center">
+                                <h:commandButton value="Zatwierdź" action="#{Zarzadzaj.zatwierdzModyfikacjeUzytkownika()}"/>
+                                <h:commandButton value="Anuluj" action="#{Zarzadzaj.anulujModyfikacjeUzytkownika()}"/>
+                            </th>
+                        </tr>                
+                    </tfoot>
+                </table>
+                </hr>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
