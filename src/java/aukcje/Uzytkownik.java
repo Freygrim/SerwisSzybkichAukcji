@@ -49,6 +49,9 @@ public class Uzytkownik implements Serializable {
     
     @NotNull
     private Boolean mozeLicytowac;
+    
+    @NotNull
+    private Boolean admin;
 
     public Long getId() {
         return id;
@@ -106,6 +109,14 @@ public class Uzytkownik implements Serializable {
         this.mozeLicytowac = moze;
     }
     
+    public Boolean getAdmin() {
+        return this.admin;
+    }
+    
+    public void setAdmin(Boolean adm) {
+        this.admin = adm;
+    }
+    
     public void reset() {
         imie = "";
         nazwisko = "";
@@ -113,6 +124,7 @@ public class Uzytkownik implements Serializable {
         adres = "";
         haslo = "";
         mozeLicytowac = false;
+        admin = false;
     }
     
     @Override
