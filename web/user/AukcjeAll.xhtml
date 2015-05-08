@@ -13,16 +13,16 @@
             <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged}" />
             <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
             <br><br>
-                <ui:repeat value="#{Auth.pobierzPodkategorie}" var="kategoria" varStatus="status">
-                    <h:commandButton value="#{kategoria.nazwa}" action="#{Auth.setIdWybranejKategroii(kategoria.id, kategoria.idNadkategorii)}"/>
+                <ui:repeat value="#{Wybory.pobierzPodkategorie}" var="kategoria" varStatus="status">
+                    <h:commandButton value="#{kategoria.nazwa}" action="#{Wybory.setIdWybranejKategroii(kategoria.id, kategoria.idNadkategorii)}"/>
                 </ui:repeat>
             </br>
-                <h:commandButton value="Powrót" action="#{Auth.setIdWybranejKategroii(Auth.idNadkategorii)}" rendered="#{Auth.isNotMainCat}"/>
+                <h:commandButton value="Powrót" action="#{Wybory.setIdWybranejKategroii(Wybory.idNadkategorii)}" rendered="#{Wybory.isNotMainCat}"/>
             </br>
             <h:commandButton value="Dodaj aukcję" action="DodajAukcje?faces-redirect=true" rendered="#{Auth.mozeLicytowac}"/>
             <hr>
                 <h1>
-                    <h:outputText value="#{Auth.nazwaKat}" />
+                    <h:outputText value="#{Wybory.nazwaKat}" />
                 </h1>
                 <h:dataTable var="aukcja" value="#{Zarzadzaj.aukcjeWKategorii}" border="0">
                     <f:facet name="header">

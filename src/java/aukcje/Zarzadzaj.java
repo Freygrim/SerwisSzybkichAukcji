@@ -203,7 +203,7 @@ public class Zarzadzaj
     }
     
     public List<Aukcja> pobierzAukcjeWKategorii() {    
-        return em.createNamedQuery("pobierzAukcjeWKategorii").setParameter("catId", auth.getIdWybranejKategorii()).getResultList();
+        return em.createNamedQuery("pobierzAukcjeWKategorii").setParameter("catId", wybory.getIdWybranejKategorii()).getResultList();
     }
     
     public Aukcja pobierzAukcjePoId(Long id) {      
@@ -313,6 +313,9 @@ public class Zarzadzaj
     @ManagedProperty("#{Auth}")
     private Auth auth; // +setter (no getter!)
     
+    @ManagedProperty("#{Wybory}")
+    private Wybory wybory;
+    
     // Korzystamy z DI dla JSF - patrz plik faces-config.xml
     @ManagedProperty(value="#{Kategoria}")
     Kategoria kategoria;
@@ -323,6 +326,10 @@ public class Zarzadzaj
     
     public void setAuth(Auth auth) {
         this.auth = auth;
+    }
+    
+    public void setWybory(Wybory wybory) {
+        this.wybory = wybory;
     }
     
     public void setKategoria(Kategoria kategoria) {

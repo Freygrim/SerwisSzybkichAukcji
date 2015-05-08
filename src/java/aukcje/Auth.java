@@ -6,11 +6,8 @@
 package aukcje;
 
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -22,8 +19,6 @@ import javax.persistence.PersistenceContext;
 @SessionScoped
 public class Auth {
     private Long id;
-    private Long idWybranejKategorii;
-    private Long idNadkategorii;
     private String login;
     private String haslo;
     private String imie;
@@ -42,8 +37,6 @@ public class Auth {
         login = "";
         haslo = "";
         isLogged = false;
-        idWybranejKategorii = 351L;
-        idNadkategorii = 0L;
         mozeLicytowac = false;
         admin = false;
     }
@@ -76,34 +69,6 @@ public class Auth {
         this.nazwisko = nazwisko;
     }
     
-    public String setIdWybranejKategroii(Long id) {
-        this.idWybranejKategorii = id;
-        this.idNadkategorii = pobierzKategoriePoId().getIdNadkategorii();
-        return "AukcjeAll";
-    }
-    
-    public String setIdWybranejKategroii(Long id, Long idN) {
-        this.idWybranejKategorii = id;
-        this.idNadkategorii = idN;
-        return "AukcjeAll";
-    }
-    
-    public Long getIdWybranejKategorii() {
-        return this.idWybranejKategorii;
-    }
-    
-    public void setIdNadkategorii(Long id) {
-        this.idNadkategorii = id;
-    }
-    
-    public Long getIdNadkategorii() {
-        return this.idNadkategorii;
-    }
-    
-    public Boolean getIsNotMainCat() {
-        return this.idWybranejKategorii != 351L;
-    }
-    
     public Boolean getIsLogged() {
         return isLogged;
     }
@@ -120,20 +85,8 @@ public class Auth {
         return "Zalogowany jako: " + imie + " " + nazwisko;
     }
     
-    public String getNazwaKat() {
-        return "Dostępne aukcje w kategorii " + pobierzKategoriePoId().getNazwa() + ":";
-    }
-    
     public List<Uzytkownik> pobierzUzytkownikow() {
         return em.createNamedQuery("pobierzUzytkownikow").getResultList();
-    }
-    
-    public Kategoria pobierzKategoriePoId() {
-        return (Kategoria)em.createNamedQuery("pobierzKategoriePoId").setParameter("catId", this.idWybranejKategorii).getSingleResult();
-    }
-    
-    public List<Kategoria> getPobierzPodkategorie() {
-        return em.createNamedQuery("pobierzKategoriePoIdNad").setParameter("catId", this.idWybranejKategorii).getResultList();
     }
     
     public String checkLogin() {
@@ -169,9 +122,7 @@ public class Auth {
         isLogged = false;
         login = "";
         haslo = "";
-        idWybranejKategorii = 351L;
         id = 0L;
-        idNadkategorii = 0L;
         mozeLicytowac = false;
         admin = false;
         return "/faces/index?faces-redirect=true";
