@@ -95,6 +95,9 @@
                         <h:outputText value="#{aukcja.licytacja}" style='align:center' />
                     </h:column>
                     <h:column>
+                        <h:commandButton value="Modyfikuj" action="#{Zarzadzaj.modyfikujAukcje}" rendered="#{aukcja.nieZakonczona}"/>
+                    </h:column>
+                    <h:column>
                         <h:commandButton value="Usuń" action="#{Zarzadzaj.usunAukcje}" />
                     </h:column>            
                     <f:facet name="footer">

@@ -23,6 +23,7 @@ public class Wybory {
     private Long idNadkategorii;
     private Long idWybranegoUzytkownika;
     private Boolean modyfikacjaSiebie;
+    private Long idAukcjiDoModyfikacji;
     
     @PersistenceContext(name = "SerwisSzybkichAukcjiPU")
     EntityManager em;
@@ -35,6 +36,7 @@ public class Wybory {
         idNadkategorii = 0L;
         idWybranegoUzytkownika = 0L;
         modyfikacjaSiebie = false;
+        idAukcjiDoModyfikacji = 0L;
     }
     
     public String setIdWybranejKategroii(Long id) {
@@ -91,5 +93,13 @@ public class Wybory {
     
     public void setModyfikacjaSiebie(Boolean mod) {
         this.modyfikacjaSiebie = mod;
+    }
+    
+    public Long getIdAukcjiDoModyfikacji() {
+        return this.idAukcjiDoModyfikacji;
+    }
+    
+    public void setIdAukcjiDoModyfikacji(Long id) {
+        this.idAukcjiDoModyfikacji = id;
     }
 }

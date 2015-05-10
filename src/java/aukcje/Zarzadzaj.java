@@ -39,6 +39,7 @@ public class Zarzadzaj
     private List<Uzytkownik> nazwyUzytkownikow;
     private List<Aukcja> aktualneAukcje;
     private Uzytkownik uzytkownikPrywatny;
+    private Aukcja aukcjaPrywatna;
 
     public Zarzadzaj() {
         // UWAGA: Kolejność wykonywania DI - serwer aplikacyjny i JSF
@@ -208,6 +209,7 @@ public class Zarzadzaj
                 return "UzytDuplikatError";
             }
         }
+        wybory.setIdWybranegoUzytkownika(0L);
         if(wybory.getModyfikacjaSiebie()) {
             return "/user/userPanel?faces-redirect=true";
         }
@@ -217,6 +219,7 @@ public class Zarzadzaj
     }
     
     public String anulujModyfikacjeUzytkownika() {
+        wybory.setIdWybranegoUzytkownika(0L);
         if(wybory.getModyfikacjaSiebie()) {
             return "/user/userPanel?faces-redirect=true";
         }
@@ -352,6 +355,53 @@ public class Zarzadzaj
         }
         getAukcja().reset();
         return "Aukcje?faces-redirect=true";
+    }
+    
+    public Aukcja getAukcjaPrywatna() {
+        return this.aukcjaPrywatna;
+    }
+    
+    public void setAukcjaPrywatna(Aukcja aukcja) {
+        this.aukcjaPrywatna = aukcja;
+    }
+    
+    public String modyfikujAukcje() {
+        wybory.setIdAukcjiDoModyfikacji(((Aukcja) aukcjeDM.getRowData()).getId());
+        return "/user/ModyfikujAukcje?faces-redirect=true";
+    }
+    
+    public Boolean zaladujAukcje() {
+        aukcjaPrywatna = (Aukcja)em.createNamedQuery("pobierzAukcjePoId").setParameter("aukcjaId", wybory.getIdAukcjiDoModyfikacji()).getSingleResult();
+        return true;
+    }
+    
+    public String zatwierdzModyfikacjeAukcji() {
+        try
+        {
+            tx.begin();
+            em.merge(this.aukcjaPrywatna);
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+        }
+        wybory.setIdAukcjiDoModyfikacji(0L);
+        if(auth.getIsAdmin()) {
+            return "/admin/Aukcje?faces-redirect=true";
+        }
+        else {
+            return "/user/userPanel?faces-redirect=true";
+        }
+    }
+    
+    public String anulujModyfikacjeAukcji() {
+        wybory.setIdAukcjiDoModyfikacji(0L);
+        if(auth.getIsAdmin()) {
+            return "/admin/Aukcje?faces-redirect=true";
+        }
+        else {
+            return "/user/userPanel?faces-redirect=true";
+        }
     }
     
     public String getNazwaKatPoId(Long id) {

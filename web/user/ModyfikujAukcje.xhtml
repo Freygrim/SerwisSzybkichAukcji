@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Zarządzanie aukcjami</title>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        
+        <script>
+        $(document).ready(function() {
+          $("#datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        });
+        </script>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged and Zarzadzaj.zaladujAukcje()}" />
+                <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
+                <hr>
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td>Kategoria</td>
+                            <td><h:selectOneMenu value="#{Zarzadzaj.aukcjaPrywatna.idKategorii}">
+                                <f:selectItems value="#{Zarzadzaj.kategorie}" var="kat"
+                                itemLabel="#{kat.nazwa}" itemValue="#{kat.id}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="Wystawiający" rendered="#{Auth.isAdmin}"/></td>
+                            <td><h:selectOneMenu value="#{Zarzadzaj.aukcjaPrywatna.idWystawiajacego}" rendered="#{Auth.isAdmin}">
+                                <f:selectItems value="#{Zarzadzaj.uzytkownicy}" var="user"
+                                itemLabel="#{user.email}" itemValue="#{user.id}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nazwa</td>
+                            <td><h:inputText value="#{Zarzadzaj.aukcjaPrywatna.nazwa}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Opis</td>
+                            <td><h:inputText value="#{Zarzadzaj.aukcjaPrywatna.opis}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Zdjęcie</td>
+                            <td><h:inputText value="#{Zarzadzaj.aukcjaPrywatna.zdjecieLink}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Cena</td>
+                            <td><h:inputText value="#{Zarzadzaj.aukcjaPrywatna.cena}" /></td>
+                        </tr>
+                        <tr>
+                            <td>Data zakończenia</td>
+                            <!--styleClass="datepicker"-->
+                            <td>
+                                <h:inputText p:id="datepicker" p:type="date" p:placeholder="30-12-1970" value="#{Zarzadzaj.aukcjaPrywatna.dataZakonczenia}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                </h:inputText>
+                                <!--h:outputText value="#{Aukcja.przekazanaData}" /-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="Id zwycięzcy" rendered="#{Auth.isAdmin}"/></td>
+                            <td><h:inputText value="#{Zarzadzaj.aukcjaPrywatna.idZwyciezcy}" rendered="#{Auth.isAdmin}"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="Status" rendered="#{Auth.isAdmin}"/></td>
+                            <td><h:inputText value="#{Zarzadzaj.aukcjaPrywatna.status}" rendered="#{Auth.isAdmin}"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="Licytacja?" rendered="#{Auth.isAdmin}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{Zarzadzaj.aukcjaPrywatna.licytacja}" rendered="#{Auth.isAdmin}"/></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" align="center">
+                                <h:commandButton value="Zatwierdź" action="#{Zarzadzaj.zatwierdzModyfikacjeAukcji()}"/>
+                                <h:commandButton value="Anuluj" action="#{Zarzadzaj.anulujModyfikacjeAukcji()}"/>
+                            </th>
+                        </tr>                
+                    </tfoot>
+                </table>
+                </hr>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
