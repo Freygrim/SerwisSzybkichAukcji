@@ -57,6 +57,11 @@ public class Uzytkownik implements Serializable {
     @NotNull
     private Boolean admin;
 
+    public Uzytkownik() {
+        this.mozeLicytowac = false;
+        this.admin = false;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -95,6 +100,12 @@ public class Uzytkownik implements Serializable {
     
     public void setAdres(String adres) {
         this.adres = adres;
+        if(this.adres.isEmpty()) {
+            this.mozeLicytowac = false;
+        }
+        else {
+            this.mozeLicytowac = true;
+        }
     }
     
     public String getHaslo() {

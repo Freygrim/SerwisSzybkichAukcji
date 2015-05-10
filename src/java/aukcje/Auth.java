@@ -7,6 +7,7 @@ package aukcje;
 
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,9 @@ public class Auth {
     private Boolean isLogged;
     private Boolean mozeLicytowac;
     private Boolean admin;
+    
+    @ManagedProperty("#{Wybory}")
+    private Wybory wybory;
     
     @PersistenceContext(name = "SerwisSzybkichAukcjiPU")
     EntityManager em;
@@ -77,8 +81,16 @@ public class Auth {
         return this.mozeLicytowac;
     }
     
+    public void setMozeLicytowac(Boolean moze) {
+        this.mozeLicytowac = moze;
+    }
+    
     public Boolean getIsAdmin() {
         return this.isLogged && this.admin;
+    }
+    
+    public void setWybory(Wybory wybory) {
+        this.wybory = wybory;
     }
     
     public String getZalogowanyJako() {
@@ -95,6 +107,7 @@ public class Auth {
         tmpUser.setEmail(login);
         tmpUser.setHaslo(haslo);
         int index = wszyscyUzytkownicy.indexOf(tmpUser);
+        wybory.setRenderujKontoUtworzone(false);
         if(index > -1)
         {
             tmpUser = wszyscyUzytkownicy.get(index);

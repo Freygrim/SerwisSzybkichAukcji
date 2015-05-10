@@ -162,9 +162,18 @@ public class Zarzadzaj
             {
                 return "UzytDuplikatError";
             }
+            else {
+                return "NieLapanyBlad";
+            }
         }
         getUzytkownik().reset();
-        return "Uzytkownicy?faces-redirect=true";
+        if(auth.getIsLogged()) {
+            return "Uzytkownicy?faces-redirect=true";
+        }
+        else {
+            wybory.setRenderujKontoUtworzone(true);
+            return "/index?faces-redirect=true";
+        }
     }
     
     public Uzytkownik getUzytkownikPrywatny() {
@@ -192,11 +201,16 @@ public class Zarzadzaj
         try
         {
             tx.begin();
-            if(this.uzytkownikPrywatny.getAdres().isEmpty()) {
-                this.uzytkownikPrywatny.setMozeLicytowac(false);
+            if(!auth.getIsAdmin()) {
+                if(this.uzytkownikPrywatny.getAdres().isEmpty()) {
+                    this.uzytkownikPrywatny.setMozeLicytowac(false);
+                }
+                else {
+                    this.uzytkownikPrywatny.setMozeLicytowac(true);
+                }
             }
-            else {
-                this.uzytkownikPrywatny.setMozeLicytowac(true);
+            if(wybory.getModyfikacjaSiebie()) {
+                auth.setMozeLicytowac(this.uzytkownikPrywatny.getMozeLicytowac());
             }
             em.merge(this.uzytkownikPrywatny);
             tx.commit();

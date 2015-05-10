@@ -28,7 +28,11 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         Auth auth = (Auth) req.getSession().getAttribute("Auth");
 
-        if ((auth != null && auth.getIsLogged()) || (req.getRequestURI().endsWith("index.xhtml")) || (req.getRequestURI().endsWith("badLogin.xhtml"))) {
+        if ((auth != null && auth.getIsLogged()) ||
+                (req.getRequestURI().endsWith("index.xhtml")) ||
+                (req.getRequestURI().endsWith("badLogin.xhtml")) ||
+                (req.getRequestURI().endsWith("ZalozKonto.xhtml"))
+           ) {
             // User is logged in, so just continue request.
             chain.doFilter(request, response);
         } else {
