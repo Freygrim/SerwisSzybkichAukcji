@@ -3,25 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/PathFilter.java</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/Auth.java</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/user/AukcjeAll.xhtml</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/Zarzadzaj.java</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/admin/adminPanel.xhtml</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/admin/Aukcje.xhtml</file>
+            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/admin/ModyfikujKategorie.xhtml</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/Kategoria.java</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/Wybory.java</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/AuthorizationFilter.java</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/admin/Uzytkownicy.xhtml</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/WEB-INF/web.xml</file>
+            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/user/ModyfikujAukcje.xhtml</file>
+            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/admin/Kategorie.xhtml</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/Aukcja.java</file>
             <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/user/userModify.xhtml</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/badLogin.xhtml</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/FiltrPrzedawnionychAukcji.java</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/admin/Test.xhtml</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/index.xhtml</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/src/java/aukcje/Uzytkownik.java</file>
-            <file>file:/D:/Tomek/Uczelnia/JAVA%20EE/SerwisSzybkichAukcji/web/user/userPanel.xhtml</file>
         </group>
     </open-files>
 </project-private>

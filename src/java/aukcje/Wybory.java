@@ -25,6 +25,7 @@ public class Wybory {
     private Boolean modyfikacjaSiebie;
     private Long idAukcjiDoModyfikacji;
     private Boolean renderujKontoUtworzone;
+    private Long idKategoriiDoModyfikacji;
     
     @PersistenceContext(name = "SerwisSzybkichAukcjiPU")
     EntityManager em;
@@ -39,6 +40,7 @@ public class Wybory {
         modyfikacjaSiebie = false;
         idAukcjiDoModyfikacji = 0L;
         renderujKontoUtworzone = false;
+        idKategoriiDoModyfikacji = 0L;
     }
     
     public String setIdWybranejKategroii(Long id) {
@@ -111,5 +113,13 @@ public class Wybory {
     
     public void setRenderujKontoUtworzone(Boolean renderuj) {
         this.renderujKontoUtworzone = renderuj;
+    }
+    
+    public Long getIdKategoriiDoModyfikacji() {
+        return this.idKategoriiDoModyfikacji;
+    }
+    
+    public void setIdKategoriiDoModyfikacji(Long id) {
+        this.idKategoriiDoModyfikacji = id;
     }
 }

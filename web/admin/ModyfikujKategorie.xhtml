@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Modyfikuj kategorie</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h:commandButton value="Powrót do panelu admina" action="adminPanel?faces-redirect=true"/>
+                <h:outputText value="#{Auth.zalogowanyJako}" rendered="#{Auth.isLogged and Zarzadzaj.zaladujKategorie()}" />
+                <h:commandButton value="Wyloguj" action="#{Auth.logout}" rendered="#{Auth.isLogged}"/>
+                
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td>Id nadkategorii:</td>
+                            <td><h:selectOneMenu value="#{Zarzadzaj.kategoriaPrywatna.idNadkategorii}">
+                                <f:selectItems value="#{Zarzadzaj.kategorie}" var="kat"
+                                itemLabel="#{kat.nazwa}" itemValue="#{kat.id}" />
+                                </h:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nazwa</td>
+                            <td><h:inputText value="#{Zarzadzaj.kategoriaPrywatna.nazwa}" /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2" align="center">
+                                <h:commandButton value="Zatwierdź" action="#{Zarzadzaj.zatwierdzModyfikacjeKategorii()}"/>
+                                <h:commandButton value="Anuluj" action="Kategorie?faces-redirect=true"/>
+                            </th>
+                        </tr>                
+                    </tfoot>
+                </table>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+

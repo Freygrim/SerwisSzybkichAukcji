@@ -40,6 +40,7 @@ public class Zarzadzaj
     private List<Aukcja> aktualneAukcje;
     private Uzytkownik uzytkownikPrywatny;
     private Aukcja aukcjaPrywatna;
+    private Kategoria kategoriaPrywatna;
 
     public Zarzadzaj() {
         // UWAGA: Kolejność wykonywania DI - serwer aplikacyjny i JSF
@@ -68,6 +69,34 @@ public class Zarzadzaj
     public int getKategorieSize()
     {
         return kategorieDM.getRowCount();
+    }
+    
+    public Kategoria getKategoriaPrywatna() {
+        return this.kategoriaPrywatna;
+    }
+    
+    public String modyfikujKategorie() {
+        wybory.setIdKategoriiDoModyfikacji(((Kategoria) kategorieDM.getRowData()).getId());
+        return "ModyfikujKategorie?faces-redirect=true";
+    }
+    
+    public Boolean zaladujKategorie() {
+        kategoriaPrywatna = (Kategoria)em.createNamedQuery("pobierzKategoriePoId").setParameter("catId", wybory.getIdKategoriiDoModyfikacji()).getSingleResult();
+        return true;
+    }
+    
+    public String zatwierdzModyfikacjeKategorii() {
+        try
+        {
+            tx.begin();
+            em.merge(this.kategoriaPrywatna);
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+        }
+        wybory.setIdKategoriiDoModyfikacji(0L);
+        return "Kategorie?faces-redirect=true";
     }
     
     public String usunKategorie()
@@ -132,17 +161,33 @@ public class Zarzadzaj
 
     public String usunUzytkownika()
     {
+        Long idUsera = 0L;
         try
         {
             tx.begin();
             // UWAGA: JPA wykonując merge zwróci trwałą encję i tylko ta będzie trwała, a nie przekazywany parametr
             Uzytkownik uzytkownik = (Uzytkownik) em.merge(uzytkownicyDM.getRowData());
+            idUsera = uzytkownik.getId();
             em.remove(uzytkownik);
             tx.commit();
         }
         catch (Exception e)
         {
             // zignoruj tymczasowo jedynie dla uproszczenia przykładu
+        }
+        for(Aukcja aukcja : this.pobierzAukcjeUzytkownika(idUsera)) {
+            try
+            {
+                tx.begin();
+                // UWAGA: JPA wykonując merge zwróci trwałą encję i tylko ta będzie trwała, a nie przekazywany parametr
+                Aukcja auk = (Aukcja) em.merge(aukcja);
+                em.remove(auk);
+                tx.commit();
+            }
+            catch (Exception e)
+            {
+                // zignoruj tymczasowo jedynie dla uproszczenia przykładu
+            }
         }
         return "Uzytkownicy?faces-redirect=true";
     }
@@ -279,6 +324,10 @@ public class Zarzadzaj
         return em.createNamedQuery("pobierzAukcjeUzytkownika").setParameter("userId", auth.getId()).getResultList();
     }
     
+    public List<Aukcja> pobierzAukcjeUzytkownika(Long id) {
+        return em.createNamedQuery("pobierzAukcjeUzytkownika").setParameter("userId", id).getResultList();
+    }
+    
     public List<Aukcja> pobierzAukcjeWKategorii() {    
         return em.createNamedQuery("pobierzAukcjeWKategorii").setParameter("catId", wybory.getIdWybranejKategorii()).getResultList();
     }
@@ -387,6 +436,26 @@ public class Zarzadzaj
     public Boolean zaladujAukcje() {
         aukcjaPrywatna = (Aukcja)em.createNamedQuery("pobierzAukcjePoId").setParameter("aukcjaId", wybory.getIdAukcjiDoModyfikacji()).getSingleResult();
         return true;
+    }
+    
+    public Boolean zaladujNowaAukcjeWKategorii() {
+        aukcjaPrywatna = new Aukcja();
+        aukcjaPrywatna.setIdKategorii(wybory.getIdWybranejKategorii());
+        aukcjaPrywatna.setIdWystawiajacego(auth.getId());
+        return true;
+    }
+    
+    public String dodajAukcjeWKategorii() {
+        try
+        {
+            tx.begin();
+            em.merge(this.aukcjaPrywatna);
+            tx.commit();
+        }
+        catch (Exception e)
+        {
+        }
+        return "AukcjeAll?faces-redirect=true";
     }
     
     public String zatwierdzModyfikacjeAukcji() {

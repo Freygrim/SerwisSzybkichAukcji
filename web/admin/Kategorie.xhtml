@@ -35,6 +35,9 @@
                         <h:outputText value="#{kategoria.nazwa}" style='align:center' />
                     </h:column>
                     <h:column>
+                        <h:commandButton value="Modyfikuj" action="#{Zarzadzaj.modyfikujKategorie}" />
+                    </h:column> 
+                    <h:column>
                         <h:commandButton value="Usuń" action="#{Zarzadzaj.usunKategorie}" />
                     </h:column>            
                     <f:facet name="footer">

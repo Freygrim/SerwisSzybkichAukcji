@@ -15,7 +15,6 @@
                 <h:commandButton value="Do panelu admina" action="/admin/adminPanel?faces-redirect=true" rendered="#{Auth.isAdmin}"/>
             <br>
                 <h:commandButton value="Przeglądaj wszystkie aukcje" action="AukcjeAll?faces-redirect=true"/>
-                <h:commandButton value="Dodaj aukcję" action="DodajAukcje?faces-redirect=true" rendered="#{Auth.mozeLicytowac}"/>
                 <h:commandButton value="Modyfikuj konto" action="#{Zarzadzaj.modyfikujSiebie}" />
             </br></br>
             <hr>
